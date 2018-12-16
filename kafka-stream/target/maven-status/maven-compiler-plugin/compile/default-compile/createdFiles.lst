@@ -1,0 +1,4 @@
+com/kafka_stream_skeleton/serialization/JsonPOJOSerializer.class
+com/kafka_stream_skeleton/Application.class
+com/kafka_stream_skeleton/serialization/JsonPOJODeserializer.class
+com/kafka_stream_skeleton/serialization/SerdeBuilder.class
