@@ -7,7 +7,11 @@ There is a module contains the data model used for producer and stream.
 ## installation
 
 1. run mvn clean install
-2. docker-compose up -d --build
+2. add .env file contains your IP, for example:
+```properties
+LOCALHOST_IP=192.168.2.100
+```
+3. docker-compose up -d --build
 
 now you have 5 images up and running:
 1. kafka
