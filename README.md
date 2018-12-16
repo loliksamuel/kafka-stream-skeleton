@@ -21,7 +21,8 @@ now you have 5 images up and running:
 5. kafka-consumer
 
 check logs of the consumer `docker logs kafka-consumer -f` to see the stream output
-check logs of the consumer `docker logs kafka-producer -f` to see the producer data ( actually used for stream input)
+
+check logs of the producer `docker logs kafka-producer -f` to see the producer data ( actually used for stream input)
   
 ## Modification
 
