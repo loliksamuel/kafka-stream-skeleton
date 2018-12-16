@@ -35,20 +35,19 @@ final KStream<String, LoginData> source = builder.stream(INPUT_TOPIC,
 3. if the stream processor writes a different types to the output topic, you may specify the new Serdes when writing the result to the output topic
 
 ```java
-        final Serde<String> stringSerde = Serdes.String();
-        final Serde<Long> longSerde = Serdes.Long();
+final Serde<String> stringSerde = Serdes.String();
+final Serde<Long> longSerde = Serdes.Long();
 
-        counts.toStream((windowed, count) ->
-                "user:" + windowed.key() + ":" + windowed.toString())
-                .to(OUTPUT_TOPIC, Produced.with(stringSerde, longSerde));
+counts.toStream((windowed, count) ->
+        "user:" + windowed.key() + ":" + windowed.toString())
+        .to(OUTPUT_TOPIC, Produced.with(stringSerde, longSerde));
 ```
 
 This changes also need to be applied in the consumer, that consume the stream output
 
 ```java
-        props.put("key.deserializer", StringDeserializer.class.getName());
-        props.put("value.deserializer", LongDeserializer.class.getName());
-        
-        KafkaConsumer<String, Long> consumer = new KafkaConsumer<>(props);
+props.put("key.deserializer", StringDeserializer.class.getName());
+props.put("value.deserializer", LongDeserializer.class.getName());
 
+KafkaConsumer<String, Long> consumer = new KafkaConsumer<>(props);
 ```
