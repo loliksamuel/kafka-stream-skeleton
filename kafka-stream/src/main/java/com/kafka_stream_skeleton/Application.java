@@ -47,7 +47,7 @@ public class Application {
         final KStream<String, LoginData> source = builder.stream(INPUT_TOPIC, Consumed.with(Serdes.String(), loginDataSerde));
 
 
-        System.out.println("start streaming processing on topic"+INPUT_TOPIC);
+        System.out.println("start streaming processing on topic "+INPUT_TOPIC);
 
         KTable<Windowed<String>, Long> counts = source
                 .filter((key, value) -> value != null)
