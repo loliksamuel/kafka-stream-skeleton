@@ -12,14 +12,14 @@ public class SerdeBuilder {
 
     public static <T> Serde<T> buildSerde(Class<T> clazz) {
         Map<String, Object> serdeProps = new HashMap<>();
-        final Serializer<T> loginDataSerializer = new JsonPOJOSerializer<>();
+        final Serializer<T> jsonPOJOSerializer = new JsonPOJOSerializer<>();
         serdeProps.put("JsonPOJOClass", clazz);
-        loginDataSerializer.configure(serdeProps, false);
+        jsonPOJOSerializer.configure(serdeProps, false);
 
-        final Deserializer<T> loginDataDeserializer = new JsonPOJODeserializer<>();
+        final Deserializer<T> jsonPOJODeserializer = new JsonPOJODeserializer<>();
         serdeProps.put("JsonPOJOClass", clazz);
-        loginDataDeserializer.configure(serdeProps, false);
+        jsonPOJODeserializer.configure(serdeProps, false);
 
-        return Serdes.serdeFrom(loginDataSerializer, loginDataDeserializer);
+        return Serdes.serdeFrom(jsonPOJOSerializer, jsonPOJODeserializer);
     }
 }
