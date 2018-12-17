@@ -19,7 +19,7 @@ In order, to fill the stream input topic with data, you can use data generation 
 
 ## Mock data
 
-1.1 By data generation
+1. By data generation
 Confluent has great [tool](https://docs.confluent.io/current/ksql/docs/tutorials/generate-custom-test-data.html) to generate data by avro schema.
 
 check also [GitHub page](https://github.com/confluentinc/ksql/tree/master/ksql-examples)
@@ -28,7 +28,7 @@ This tool is used by default to fill stream input topic with data.
 
 schema must be located in <root_directory>/schema.
 
-current schema is model.avro that has same types has the model used for stream processing.
+current schema is model.avro that has same types as the model used for stream processing.
 
 schema is used in docker-compose file, in image `datagen`
 
@@ -48,28 +48,32 @@ schema is used in docker-compose file, in image `datagen`
                           propertiesFile=./schema/datagen.properties'"
 ```
 
-if you will want to change the schema name, just change the value of attribute in schema, in the bash command.
-also, you may need also to change the key attribute, with the key in your new model.
+if you will want to change the schema name, just change the value of the attribute in schema, in the bash command.
+
+you may need also to change the key attribute, with the key in your new model.
 
 schema can be very strong tool, check more examples [here](https://github.com/confluentinc/ksql/tree/master/ksql-examples)  
  
-1.2 By custom producer
-data can be also produced in the old and known way, by using KafkaProducer class. see module producer.
+2. By custom producer
 
-you need to specify the key and value serializations, there are defaults for primitives like String, int, long, byte array. for json we need to write our own class. 
+data can be also produced  by using KafkaProducer class. see the project module producer.
 
-1.3 you can also run some kafka connect to some external source, there is no example here. need to add your own image for it
+you need to specify the key and value serializations, there are defaults for primitives like String, int, long, byte array, for json we need to write our own class. 
+
 ```java
 configProperties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
 configProperties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "com.kafka_stream_skeleton.producer.serialization.JsonPOJOSerializer");
 KafkaConsumer<String, Long> consumer = new KafkaConsumer<>(props);
 ```
+If using this option, you need to uncomment producer image in the docker-compose file, and comment the datagen image
 
-if using this option, you need to uncomment this in the docker-compose file, and comment the datagen image 
+3. you can also run some kafka connect tool to some external source.
  
+There is no example here. need to add your own image for it.
+
 ## Stream processing
 
-Stream processing is done in stream module, Application class, stream read the input topic data, and do dome grouping and aggregation.
+Stream processing is done in the stream module, Application class, stream read the input topic data, and does some grouping and aggregation.
 stream must define SerDes (Serialization and Deserialization) for key and value, this also need to be defined if grouping/counting/aggregation methods change the key/value type.
 
 ```java
@@ -91,11 +95,11 @@ counts.toStream((windowed, count) ->
 ```
 
 Also here there are default SerDes for primitive types, and for json need to write our own SerDes.
-use the class com.kafka_stream_skeleton.serialization.SerdeBuilder, to create a custom SerDes.
+use the class`com.kafka_stream_skeleton.serialization.SerdeBuilder`, to create a custom SerDes.
 
 ## Consuming stream data
 
-Stream output data exists in its own topic and need to be consumed, I write some naive consumer, that just print result to the console.
+Stream output data is written in its own topic and need to be consumed, I write some consumer, that just print result to the console.
 also here need to specify correctly the serializers, according to the stream results
 ```java
 props.put("key.deserializer", StringDeserializer.class.getName());
@@ -123,6 +127,7 @@ LOCALHOST_IP=192.168.2.100
 3. docker-compose up -d --build
 
 now you have 5 images up and running:
+
     1. kafka
     2. zookeeper
     3. datagen (or kafka-producer)
