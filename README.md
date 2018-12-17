@@ -3,9 +3,9 @@
 <p>Kafka stream started project</p>
 <ul>
   <li><a href="#overview">Overview</a></li>
-  <li><a href="#Fill input topic with mock data">Fill input topic with mock data</a></li>
-  <li><a href="#Stream processing">Stream processing</a></li>
-  <li><a href="#Consuming stream data">Consuming stream data</a></li>
+  <li><a href="#data">Fill input topic with mock data</a></li>
+  <li><a href="#Stream">Stream processing</a></li>
+  <li><a href="#Consumer">Consuming stream data</a></li>
   <li><a href="#installation">Installation</a></li>
 </ul>
 
@@ -16,7 +16,7 @@ There is a module contains the data model used for the stream.
 In order, to fill the stream input topic with data, you can use data generation tool, or build the producer image.
 
 
-##Fill input topic with mock data
+##data
 
 1.1 By data generation
 Confluent has great [tool](https://docs.confluent.io/current/ksql/docs/tutorials/generate-custom-test-data.html) to generate data by avro schema.
@@ -66,7 +66,8 @@ KafkaConsumer<String, Long> consumer = new KafkaConsumer<>(props);
 
 if using this option, you need to uncomment this in the docker-compose file, and comment the datagen image 
  
-##Stream processing
+##Stream
+
 Stream processing is done in stream module, Application class, stream read the input topic data, and do dome grouping and aggregation.
 stream must define SerDes (Serialization and Deserialization) for key and value, this also need to be defined if grouping/counting/aggregation methods change the key/value type.
 
@@ -91,7 +92,8 @@ counts.toStream((windowed, count) ->
 Also here there are default SerDes for primitive types, and for json need to write our own SerDes.
 use the class com.kafka_stream_skeleton.serialization.SerdeBuilder, to create a custom SerDes.
 
-##Consuming stream data
+##Consumer
+
 Stream output data exists in its own topic and need to be consumed, I write some naive consumer, that just print result to the console.
 also here need to specify correctly the serializers, according to the stream results
 ```java
