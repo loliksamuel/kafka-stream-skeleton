@@ -1,6 +1,6 @@
 # kafka-stream-skeleton
 
-<p align="center">Kafka stream started project</p>
+<p>Kafka stream started project</p>
 <ul>
   <li><a href="#overview">Overview</a></li>
   <li><a href="#Fill input topic with mock data">Fill input topic with mock data</a></li>
@@ -10,12 +10,13 @@
 </ul>
 
 ##Overview
+
 This skeleton contains stream processor and consumer that just print out the stream output.
 There is a module contains the data model used for the stream.
 In order, to fill the stream input topic with data, you can use data generation tool, or build the producer image.
 
 
-#Fill input topic with mock data
+##Fill input topic with mock data
 
 1.1 By data generation
 Confluent has great [tool](https://docs.confluent.io/current/ksql/docs/tutorials/generate-custom-test-data.html) to generate data by avro schema.
@@ -65,7 +66,7 @@ KafkaConsumer<String, Long> consumer = new KafkaConsumer<>(props);
 
 if using this option, you need to uncomment this in the docker-compose file, and comment the datagen image 
  
-#Stream processing
+##Stream processing
 Stream processing is done in stream module, Application class, stream read the input topic data, and do dome grouping and aggregation.
 stream must define SerDes (Serialization and Deserialization) for key and value, this also need to be defined if grouping/counting/aggregation methods change the key/value type.
 
