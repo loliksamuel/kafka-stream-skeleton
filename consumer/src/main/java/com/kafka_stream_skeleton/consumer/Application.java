@@ -1,9 +1,9 @@
 package com.kafka_stream_skeleton.consumer;
 
+import com.kafka_stream_skeleton.model.LoginCount;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
 import java.util.Arrays;
@@ -29,9 +29,9 @@ public class Application {
          *  this should match the kafka_stream_skeleton output key-value types
          */
         props.put("key.deserializer", StringDeserializer.class.getName());
-        props.put("value.deserializer", LongDeserializer.class.getName());
+        props.put("value.deserializer", "com.kafka_stream_skeleton.consumer.serialization.JsonPOJODeserializer");
 
-        KafkaConsumer<String, Long> consumer = new KafkaConsumer<>(props);
+        KafkaConsumer<String, LoginCount> consumer = new KafkaConsumer<>(props);
 
         consumer.subscribe(Arrays.asList(TOPIC));
 
@@ -39,8 +39,8 @@ public class Application {
 
         try {
             while (running) {
-                ConsumerRecords<String, Long> records = consumer.poll(1000);
-                for (ConsumerRecord<String, Long> record : records) {
+                ConsumerRecords<String, LoginCount> records = consumer.poll(1000);
+                for (ConsumerRecord<String, LoginCount> record : records) {
                     System.out.println(String.format("MESSAGE=> key:%s, value:%s",  record.key(), record.value()));
                 }
             }

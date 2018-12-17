@@ -1,5 +1,6 @@
 package com.kafka_stream_skeleton;
 
+import com.kafka_stream_skeleton.model.LoginCount;
 import com.kafka_stream_skeleton.model.LoginData;
 import com.kafka_stream_skeleton.serialization.SerdeBuilder;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -58,11 +59,11 @@ public class Application {
 
 
         final Serde<String> stringSerde = Serdes.String();
-        final Serde<Long> longSerde = Serdes.Long();
 
-        counts.toStream((windowed, count) ->
-                "user:" + windowed.key() + ":" + windowed.toString())
-                .to(OUTPUT_TOPIC, Produced.with(stringSerde, longSerde));
+        Serde<LoginCount> loginCountSerde = SerdeBuilder.buildSerde(LoginCount.class);
+
+        counts.toStream().map((windowed,count)->new KeyValue<>(windowed.key(),new LoginCount(windowed.key(),count,windowed.window().start(),windowed.window().end())))
+                .to(OUTPUT_TOPIC, Produced.with(stringSerde, loginCountSerde));
 
         System.out.println("streaming processing will be produced to topic "+OUTPUT_TOPIC);
 

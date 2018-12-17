@@ -18,7 +18,7 @@ services:
     - "9092:9092"
     environment:
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
-      KAFKA_CREATE_TOPICS: "users-counts:1:1"
+      KAFKA_CREATE_TOPICS: "user-login-counts:1:1"
       KAFKA_ADVERTISED_HOST_NAME: "${LOCALHOST_IP}"
 
 #  producer:
@@ -38,8 +38,8 @@ services:
      KAFKA_URL: kafka:9092
      zookeeper_URL: zookeeper:2181
      INPUT_TOPIC: "users-data"
-     OUTPUT_TOPIC: "users-counts"
-     APPLICATION_ID: "stream_users_app1"
+     OUTPUT_TOPIC: "user-login-counts"
+     APPLICATION_ID: "user-login-counts-app"
    container_name: kafka-stream
    ports:
    - "9089:9089"
@@ -48,9 +48,9 @@ services:
     build: consumer
     restart: always
     environment:
-      OUTPUT_TOPIC: "users-counts"
+      OUTPUT_TOPIC: "user-login-counts"
       KAFKA_URL: kafka:9092
-      CONSUMER_GROUP: "users_count_group1"
+      CONSUMER_GROUP: "user-login-counts-group"
     container_name: kafka-consumer
     ports:
     - "9090:9090"
