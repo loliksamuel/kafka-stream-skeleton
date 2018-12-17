@@ -86,26 +86,28 @@ final KStream<String, LoginData> source = builder.stream(INPUT_TOPIC,
 
 and because the counting method change the types, I must specify this:
 ```java
-final Serde<String> stringSerde = Serdes.String();
-final Serde<Long> longSerde = Serdes.Long();
 
-counts.toStream((windowed, count) ->
-        "user:" + windowed.key() + ":" + windowed.toString())
-        .to(OUTPUT_TOPIC, Produced.with(stringSerde, longSerde));
+final Serde<String> stringSerde = Serdes.String();
+
+Serde<LoginCount> loginCountSerde = SerdeBuilder.buildSerde(LoginCount.class);
+
+counts.toStream().map((windowed,count)->new KeyValue<>(windowed.key(),new LoginCount(windowed.key(),count,windowed.window().start(),windowed.window().end())))
+                .to(OUTPUT_TOPIC, Produced.with(stringSerde, loginCountSerde));
 ```
 
-Also here there are default SerDes for primitive types, and for json need to write our own SerDes.
+Also here, there are default SerDes for primitive types, and for json need to write our own SerDes.
 use the class`com.kafka_stream_skeleton.serialization.SerdeBuilder`, to create a custom SerDes.
 
 ## Consuming stream data
 
 Stream output data is written in its own topic and need to be consumed, I write some consumer, that just print result to the console.
-also here need to specify correctly the serializers, according to the stream results
+also here, need to specify correctly the serializers, according to the stream results
+
 ```java
 props.put("key.deserializer", StringDeserializer.class.getName());
-props.put("value.deserializer", LongDeserializer.class.getName());
-    
-KafkaConsumer<String, Long> consumer = new KafkaConsumer<>(props);
+props.put("value.deserializer", "com.kafka_stream_skeleton.consumer.serialization.JsonPOJODeserializer");
+
+KafkaConsumer<String, LoginCount> consumer = new KafkaConsumer<>(props);
     
 consumer.subscribe(Arrays.asList(TOPIC));
 ```
