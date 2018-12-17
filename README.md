@@ -1,7 +1,7 @@
 # kafka-stream-skeleton
 
 <p align="center">Kafka stream started project</p>
-<ul align="center">
+<ul>
   <li><a href="#overview">Overview</a></li>
   <li><a href="#Fill input topic with mock data">Fill input topic with mock data</a></li>
   <li><a href="#Stream processing">Stream processing</a></li>
