@@ -124,7 +124,7 @@ also here, you can use some kafka sink connect, to send result to some external 
 ```properties
 LOCALHOST_IP=192.168.2.100
 ```
-3. docker-compose up -d --build
+3. `docker-compose up -d --build`
 
 now you have 5 images up and running:
 
@@ -134,5 +134,6 @@ now you have 5 images up and running:
     4. kafka-stream
     5. kafka-consumer
 
-4. docker-compose stop 
-    to stop all images
+4. `docker-compose stop `
+
+to stop all images
