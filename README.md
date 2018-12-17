@@ -16,7 +16,7 @@ There is a module contains the data model used for the stream.
 In order, to fill the stream input topic with data, you can use data generation tool, or build the producer image.
 
 
-## data
+## mock data
 
 1.1 By data generation
 Confluent has great [tool](https://docs.confluent.io/current/ksql/docs/tutorials/generate-custom-test-data.html) to generate data by avro schema.
