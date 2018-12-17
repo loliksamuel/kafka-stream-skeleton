@@ -15,6 +15,7 @@ This skeleton contains stream processor and consumer that just print out the str
 There is a module contains the data model used for the stream.
 In order, to fill the stream input topic with data, you can use data generation tool, or build the producer image.
 
+![Full flow](kafka-skeleton.png)
 
 ## Mock data
 
