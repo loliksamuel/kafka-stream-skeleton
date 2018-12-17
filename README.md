@@ -2,11 +2,11 @@
 
 <p>Kafka stream started project</p>
 <ul>
-  <li><a href="#overview">Overview</a></li>
-  <li><a href="#mock-data">Fill input topic with mock data</a></li>
+  <li><a href="#Overview">Overview</a></li>
+  <li><a href="#Mock-data">Mock data</a></li>
   <li><a href="#Stream-processing">Stream processing</a></li>
   <li><a href="#Consuming-stream-data">Consuming stream data</a></li>
-  <li><a href="#installation">Installation</a></li>
+  <li><a href="#Installation">Installation</a></li>
 </ul>
 
 ## Overview
@@ -16,7 +16,7 @@ There is a module contains the data model used for the stream.
 In order, to fill the stream input topic with data, you can use data generation tool, or build the producer image.
 
 
-## mock data
+## Mock data
 
 1.1 By data generation
 Confluent has great [tool](https://docs.confluent.io/current/ksql/docs/tutorials/generate-custom-test-data.html) to generate data by avro schema.
