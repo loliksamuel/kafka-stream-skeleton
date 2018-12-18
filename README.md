@@ -121,6 +121,13 @@ also here, you can use some kafka sink connect, to send result to some external 
 
 ## Installation
 
+### prerequisite
+
+1. docker
+2. git
+3. maven
+
+### install 
 1. run mvn clean install
 2. add .env file contains your IP, for example:
 ```properties
@@ -128,7 +135,7 @@ LOCALHOST_IP=192.168.2.100
 ```
 3. `docker-compose up -d --build`
 
-now you have 5 images up and running:
+To make sure all is work, run `docke ps` you may see 5 images:
 
     1. kafka
     2. zookeeper
@@ -139,3 +146,28 @@ now you have 5 images up and running:
 4. `docker-compose stop `
 
 to stop all images
+
+
+### Run Stream from IDE
+
+You have to go kafka-stream module, and run Application.class.
+
+This class expect to get 4 environment variable:
+
+1. APPLICATION_ID
+2. INPUT_TOPIC
+3. OUTPUT_TOPIC
+4. KAFKA_URL
+
+docker-compose send values for this properties, when running the application from IDE we need to set values for this environment variables.
+(intelij, open run configuration, and set this variable with the values in Environment Variable field)
+
+By default, (unless you change topic names and ports), set this values
+
+APPLICATION_ID="user-login-counts-app" 
+INPUT_TOPIC="users-data" 
+OUTPUT_TOPIC="user-login-counts" 
+KAFKA_URL="0.0.0.0:9092"
+
+![see example](env-variable-intelij.png)
+

@@ -6,7 +6,7 @@
                 {"name": "userName", "type": {
                                     "type": "string",
                                     "arg.properties": {
-                                       "regex": "user_[1-9][0-9]?"
+                                       "regex": "user_[1-5]?"
                                     }}},
                  {"name": "userPassword", "type": {
                                     "type": "string",
