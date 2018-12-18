@@ -165,9 +165,13 @@ docker-compose send values for this properties, when running the application fro
 By default, (unless you change topic names and ports), set this values
 
 APPLICATION_ID="user-login-counts-app" 
+
 INPUT_TOPIC="users-data" 
+
 OUTPUT_TOPIC="user-login-counts" 
+
 KAFKA_URL="0.0.0.0:9092"
+
 
 ![see example](env-variable-intelij.png)
 
