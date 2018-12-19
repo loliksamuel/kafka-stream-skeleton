@@ -128,6 +128,9 @@ also here, you can use some kafka sink connect, to send result to some external 
 3. maven
 
 ### install 
+
+If you want make changes on this repository, don't forget to fork this before cloning.
+
 1. run mvn clean install
 2. add .env file contains your IP, for example:
 ```properties
