@@ -49,6 +49,9 @@ services:
   producer:
     build: producer
     container_name: kafka-producer
+    depends_on:
+    - zookeeper
+    - kafka
     environment:
       KAFKA_URL: kafka:9092
       INPUT_TOPIC: "users-data"
