@@ -3,14 +3,14 @@ version: "3"
 services:
   zookeeper:
     image: wurstmeister/zookeeper
-    container_name: zookeeper
+    container_name: kafka-zookeeper
     restart: always
     ports:
     - "2181:2181"
 
   kafka:
     image: wurstmeister/kafka
-    container_name: kafka
+    container_name: kafka-broker
     depends_on:
     - zookeeper
     restart: always
@@ -33,6 +33,7 @@ services:
 
   stream:
    build: kafka-stream
+   container_name: kafka-stream
    restart: always
    environment:
      KAFKA_URL: kafka:9092
@@ -40,24 +41,25 @@ services:
      INPUT_TOPIC: "users-data"
      OUTPUT_TOPIC: "user-login-counts"
      APPLICATION_ID: "user-login-counts-app"
-   container_name: kafka-stream
+
    ports:
    - "9089:9089"
 
   consumer:
     build: consumer
+    container_name: kafka-consumer
     restart: always
     environment:
       OUTPUT_TOPIC: "user-login-counts"
       KAFKA_URL: kafka:9092
       CONSUMER_GROUP: "user-login-counts-group"
-    container_name: kafka-consumer
+
     ports:
     - "9090:9090"
 
   datagen:
     image: confluentinc/ksql-examples:latest
-    container_name: datagen
+    container_name: kafka-producer-generator
     depends_on:
     - zookeeper
     - kafka

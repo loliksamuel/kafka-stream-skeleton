@@ -1,10 +1,12 @@
 package com.kafka_stream_skeleton.producer;
 
+import com.kafka_stream_skeleton.model.LoginData;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import com.kafka_stream_skeleton.model.LoginData;
+
+
 import java.util.Properties;
 
 public class LoginProducer {
