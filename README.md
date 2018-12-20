@@ -134,7 +134,7 @@ also here, you can use some kafka sink connect, to send result to some external 
 If you want make changes on this repository, don't forget to fork this before cloning.
 
 1. run mvn clean install
-2. add .env file contains your IP, for example:
+2. add .env file contains your IP, for example:(must be your ip)
 ```properties
 LOCALHOST_IP=192.168.2.100
 ```
@@ -152,6 +152,7 @@ To make sure all is work, run `docke ps` you may see 5 images:
 
 to stop all images
 
+5. check logs of consumer : `docker logs <CONTAINER_ID>
 
 ### Run Stream from IDE
 
