@@ -9,8 +9,8 @@ public class Application {
         LoginProducer loginProducer = new LoginProducer();
 
         while (true) {
-            Thread.sleep(1000);
-            loginProducer.produce(topic, "bla", "bla", "bla", new Date().getTime());
+            Thread.sleep(3000);
+            loginProducer.produce(topic, "userNamefromProducer", "pwd_bla", "ip_bla", new Date().getTime());
         }
     }
 }

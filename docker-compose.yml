@@ -14,22 +14,13 @@ services:
     depends_on:
     - zookeeper
     restart: always
-    ports:
-    - "9092:9092"
     environment:
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
       KAFKA_CREATE_TOPICS: "user-login-counts:1:1"
       KAFKA_ADVERTISED_HOST_NAME: "${LOCALHOST_IP}"
+    ports:
+    - "9092:9092"
 
-#  producer:
-#    build: producer
-#    environment:
-#      KAFKA_URL: kafka:9092
-#      INPUT_TOPIC: "users-data"
-#    restart: always
-#    container_name: kafka-producer
-#    ports:
-#    - "9088:9088"
 
   stream:
    build: kafka-stream
@@ -41,7 +32,6 @@ services:
      INPUT_TOPIC: "users-data"
      OUTPUT_TOPIC: "user-login-counts"
      APPLICATION_ID: "user-login-counts-app"
-
    ports:
    - "9089:9089"
 
@@ -53,9 +43,18 @@ services:
       OUTPUT_TOPIC: "user-login-counts"
       KAFKA_URL: kafka:9092
       CONSUMER_GROUP: "user-login-counts-group"
-
     ports:
     - "9090:9090"
+
+  producer:
+    build: producer
+    container_name: kafka-producer
+    environment:
+      KAFKA_URL: kafka:9092
+      INPUT_TOPIC: "users-data"
+    restart: always
+    ports:
+    - "9088:9088"
 
   datagen:
     image: confluentinc/ksql-examples:latest
@@ -70,7 +69,7 @@ services:
                       key=userName \
                           format=json \
                           topic=users-data \
-                          maxInterval=1000 \
+                          maxInterval=9000 \
                           bootstrap-server=kafka:9092 \
                           propertiesFile=./schema/datagen.properties'"
 volumes:

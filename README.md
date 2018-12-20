@@ -39,7 +39,7 @@ schema is used in docker-compose file, in image `datagen`
     volumes:
     - ./schema:/schema
     command: "bash -c 'ksql-datagen \
-                      schema=./schema/model.avro \
+                      schema=./modelGen/model.avro \
                       key=userName \
                           format=json \
                           topic=users-data \
