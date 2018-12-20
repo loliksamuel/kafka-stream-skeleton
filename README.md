@@ -73,7 +73,9 @@ There is no example here. need to add your own image for it.
 
 ## Stream processing
 
-Stream processing is done in the stream module, Application class, stream read the input topic data, and does some grouping and aggregation.
+First, I recommend to check [confluent stream code example](https://github.com/confluentinc/kafka-streams-examples/tree/5.0.1-post/src/main/java/io/confluent/examples/streams).
+
+Here in this project, Stream processing is done in the stream module, Application class, stream read the input topic data, and does some grouping and aggregation.
 stream must define SerDes (Serialization and Deserialization) for key and value, this also need to be defined if grouping/counting/aggregation methods change the key/value type.
 
 ```java
