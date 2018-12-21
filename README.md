@@ -159,6 +159,17 @@ to stop all images
 
 5. check logs of consumer : `docker logs <CONTAINER_ID>
 
+6. go into machine `docker exec -it <CONTAINER_ID> bash`   
+`cd opt/kafka.../bin`
+`./kafka-topics.sh --list --zookeeper localhost:2181`
+`./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic users-data --from-beginning`
+
+7. go into zk machine `docker exec -it <CONTAINER_ID> bash`  
+
+cd bin
+./zkCli.sh
+ls /brokers/topics
+
 ### Run Stream from IDE
 
 You have to go kafka-stream module, and run Application.class.
