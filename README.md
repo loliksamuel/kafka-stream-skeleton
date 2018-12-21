@@ -134,11 +134,16 @@ also here, you can use some kafka sink connect, to send result to some external 
 If you want make changes on this repository, don't forget to fork this before cloning.
 
 1. run mvn clean install
-2. add .env file contains your IP, for example:(must be your ip)
+2. add .env file contains your IP, for example:(must be your ip.  use terminal ifconfig | grep "inet " | grep -v 127.0.0.1)
 ```properties
 LOCALHOST_IP=192.168.2.100
 ```
-3. `docker-compose up -d --build`
+3. run app
+ 3.1 `docker-compose up -d --build`   
+ or  
+ 3.2 `docker build -t kafka-xxx:v1 .`  
+     `docker run  -d --name "hpa-kafka-xxx" -p 9088:9088  hpa-kafka-xxx`
+     `docker run wurstmeister/zookeeper`
 
 To make sure all is work, run `docke ps` you may see 5 images:
 
@@ -177,6 +182,8 @@ INPUT_TOPIC="users-data"
 OUTPUT_TOPIC="user-login-counts" 
 
 KAFKA_URL="0.0.0.0:9092"
+
+CONSUMER_GROUP="user-login-counts-group"
 
 
 ![see example](env-variable-intelij.png)
