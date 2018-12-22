@@ -14,19 +14,19 @@ public class LoginProducer {
 
     private Producer producer;
 
-    private Producer<String, LoginData> getProducer() {
+    private Producer<String, LoginData> getProducer(String topic) {
         String kafkaUrl = System.getenv("KAFKA_URL");
 
         if(kafkaUrl==null){
             throw new RuntimeException("kafka url must be given");
         }
-        System.out.println("start produce data to kafka "+kafkaUrl);
+        System.out.println("start produce data to kafka "+kafkaUrl + " to topic " +topic);
 
 
         if (producer == null) {
             Properties configProperties = new Properties();
-            configProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaUrl);
-            configProperties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+            configProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG     , kafkaUrl);
+            configProperties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG  , "org.apache.kafka.common.serialization.StringSerializer");
             configProperties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "com.kafka_stream_skeleton.producer.serialization.JsonPOJOSerializer");
 
             producer = new KafkaProducer<String, String>(configProperties);
@@ -41,11 +41,14 @@ public class LoginProducer {
 
         LoginData loginData = new LoginData(userName, userPassword, ip, date);
 
-        System.out.println("produce to topic:"+topicName +" : " +loginData);
-
+        System.out.println("custom : "+userName + " --> ([ '" + userName      + "' | '"
+                                                                  + userPassword  + "' | '"
+                                                                  + ip            + "' | "
+                                                                  + date          + " ])");
+        //user_4 --> ([ 'user_4' | 'password_16' | 3.28.16.084' | 1545503298870 ]) ts:15
         ProducerRecord<String, LoginData> rec = new ProducerRecord<>(topicName, loginData);
 
-        getProducer().send(rec);
+        getProducer(topicName).send(rec);
     }
 
 }

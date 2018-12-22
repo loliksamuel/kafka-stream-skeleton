@@ -55,8 +55,8 @@ public class LoginCount {
         return "LoginCount{" +
                 "userName='" + userName + '\'' +
                 ", count=" + count +
-                ", windowStart=" + windowStart +
-                ", windowEnd=" + windowEnd +
+                ", windowFrom=" + windowStart +
+                ", to=" + windowEnd +
                 '}';
     }
 }

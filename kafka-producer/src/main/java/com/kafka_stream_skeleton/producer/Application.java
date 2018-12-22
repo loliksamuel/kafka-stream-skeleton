@@ -7,12 +7,14 @@ public class Application {
         String topic = System.getenv("INPUT_TOPIC");
         System.out.println(topic);
         LoginProducer loginProducer = new LoginProducer();
-        int i=1;
+        int i=10;
         while (true) {
-            Thread.sleep(3000);
-            loginProducer.produce(topic, "userNamefromProducer"+i++, "pwd_bla", "ip_bla", new Date().getTime());
-            if (i > 5)
-                i = 1;
+            Thread.sleep(1000);
+            i++;
+            loginProducer.produce(topic, "user"+ i, "password" + i, i+"."+(i/2)+"."+i+"."+(i*2), new Date().getTime());
+
+            if (i > 15)
+                i = 10;
         }
     }
 }
