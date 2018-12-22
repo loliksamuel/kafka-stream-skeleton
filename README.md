@@ -20,7 +20,7 @@ There is a module contains the schema1 used for the producer/consumer.
 
 ![Full flow](kafka-skeleton.png)
 
-## 2 types of producers:
+## 2  producers:
 
 1. By data generation
 Confluent has great [tool](https://docs.confluent.io/current/ksql/docs/tutorials/generate-custom-test-data.html) to generate data by avro schema.
@@ -74,7 +74,7 @@ If using this option, you need to uncomment producer image in the docker-compose
  
 There is no example here. need to add your own image for it.
 
-## Stream processing
+## 1 stream processor
 
 First, I recommend to check [confluent stream code example](https://github.com/confluentinc/kafka-streams-examples/tree/5.0.1-post/src/main/java/io/confluent/examples/streams).
 
@@ -103,7 +103,7 @@ counts.toStream().map((windowed,count)->new KeyValue<>(windowed.key(),new LoginC
 Also here, there are default SerDes for primitive types, and for json need to write our own SerDes.
 use the class`com.kafka_stream_skeleton.serialization.SerdeBuilder`, to create a custom SerDes.
 
-## Consuming stream data
+## 1 consumer
 
 Stream output data is written in its own topic and need to be consumed, I write some consumer, that just print result to the console.
 also here, need to specify correctly the serializers, according to the stream results
@@ -124,10 +124,7 @@ docker logs kafka-consumer -f
 
 also here, you can use some kafka sink connect, to send result to some external system, DB, elasticsearch
 
-## Installation
-
- 
-### install 
+### installation
 
 If you want make changes on this repository, don't forget to fork this before cloning.
 
@@ -138,20 +135,23 @@ If you want make changes on this repository, don't forget to fork this before cl
 LOCALHOST_IP=192.168.2.100
 ```
 3. run app
+
+### Run project using docker
+
  3.1 `docker-compose up -d --build`   
  or  
  3.2 `docker build -t kafka-xxx:v1 .`  
      `docker run  -d --name "hpa-kafka-xxx" -p 9088:9088  hpa-kafka-xxx`
      `docker run wurstmeister/zookeeper`
 
-To make sure all is work, run `docke ps` you may see 5 images:
+To make sure all is work, run `docke ps` you may see 6 images:
 
     1. kafka
     2. zookeeper
     3. kafka-producer-generator
     4. kafka-producer
-    4. kafka-stream
-    5. kafka-consumer
+    5. kafka-stream
+    6. kafka-consumer
 
 4. `docker-compose stop `
 
@@ -170,7 +170,7 @@ to stop all images
 `./zkCli.sh`
 `ls /brokers/topics`
 
-### Run Stream from IDE
+### Run project from IDE
 
 You have to go kafka-stream module, and run Application.class.
 
