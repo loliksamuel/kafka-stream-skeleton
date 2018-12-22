@@ -18,7 +18,7 @@ public class LoginData {
 
     @Override
     public String toString() {
-        return "com.kafka_stream_skeleton.model.LoginData{" +
+        return "LoginData{" +
                 "userName='" + userName + '\'' +
                 ", userPassword='" + userPassword + '\'' +
                 ", ip='" + ip + '\'' +

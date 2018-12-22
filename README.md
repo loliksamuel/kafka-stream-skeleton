@@ -11,13 +11,16 @@
 
 ## Overview
 
-This skeleton contains stream processor and consumer that just print out the stream output.
-There is a module contains the data model used for the stream.
-In order, to fill the stream input topic with data, you can use data generation tool, or build the producer image.
+This skeleton contains :
+1. 2 producers (that produce data about users)
+2. 1 stream processor (that transform the data)
+3. 1 consumer (that just print out the stream output).
+There is a module contains the schema  used for the stream.
+There is a module contains the schema1 used for the producer/consumer.
 
 ![Full flow](kafka-skeleton.png)
 
-## Mock data
+## 2 types of producers:
 
 1. By data generation
 Confluent has great [tool](https://docs.confluent.io/current/ksql/docs/tutorials/generate-custom-test-data.html) to generate data by avro schema.
@@ -123,17 +126,13 @@ also here, you can use some kafka sink connect, to send result to some external 
 
 ## Installation
 
-### prerequisite
-
-1. docker
-2. git
-3. maven
-
+ 
 ### install 
 
 If you want make changes on this repository, don't forget to fork this before cloning.
 
-1. run mvn clean install
+1. `cd kafka-stream-skeleton`
+2. `mvn clean compile package` 
 2. add .env file contains your IP, for example:(must be your ip.  use terminal ifconfig | grep "inet " | grep -v 127.0.0.1)
 ```properties
 LOCALHOST_IP=192.168.2.100
@@ -149,7 +148,8 @@ To make sure all is work, run `docke ps` you may see 5 images:
 
     1. kafka
     2. zookeeper
-    3. datagen (or kafka-producer)
+    3. kafka-producer-generator
+    4. kafka-producer
     4. kafka-stream
     5. kafka-consumer
 
@@ -161,14 +161,14 @@ to stop all images
 
 6. go into machine `docker exec -it <CONTAINER_ID> bash`   
 `cd opt/kafka.../bin`
-`./kafka-topics.sh --list --zookeeper localhost:2181`
-`./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic users-data --from-beginning`
+`kafka-topics --list --zookeeper zookeeper:2181`
+`kafka-console-consumer --bootstrap-server localhost:9092 --topic users-data --from-beginning`
 
 7. go into zk machine `docker exec -it <CONTAINER_ID> bash`  
 
-cd bin
-./zkCli.sh
-ls /brokers/topics
+`cd bin`
+`./zkCli.sh`
+`ls /brokers/topics`
 
 ### Run Stream from IDE
 
@@ -185,16 +185,11 @@ docker-compose send values for this properties, when running the application fro
 (intelij, open run configuration, and set this variable with the values in Environment Variable field)
 
 By default, (unless you change topic names and ports), set this values
-
-APPLICATION_ID="user-login-counts-app" 
-
-INPUT_TOPIC="users-data" 
-
-OUTPUT_TOPIC="user-login-counts" 
-
-KAFKA_URL="0.0.0.0:9092"
-
-CONSUMER_GROUP="user-login-counts-group"
+1. INPUT_TOPIC="users-data" 
+2. OUTPUT_TOPIC="user-login-counts" 
+3. APPLICATION_ID="user-login-counts-app" 
+4. KAFKA_URL="0.0.0.0:29092"
+5. CONSUMER_GROUP="user-login-counts-group"
 
 
 ![see example](env-variable-intelij.png)

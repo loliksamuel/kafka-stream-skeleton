@@ -11,7 +11,7 @@ import java.util.Properties;
 
 public class Application {
     private final static String TOPIC = System.getenv("OUTPUT_TOPIC");
-    public static final java.lang.String CONSUMER_GROUP = System.getenv("CONSUMER_GROUP");
+    public  static final java.lang.String CONSUMER_GROUP = System.getenv("CONSUMER_GROUP");
 
     public static void main(String[] args) {
         System.out.println("starting kafka consumer");
@@ -41,7 +41,7 @@ public class Application {
             while (running) {
                 ConsumerRecords<String, LoginCount> records = consumer.poll(1000);
                 for (ConsumerRecord<String, LoginCount> record : records) {
-                    System.out.println(String.format("MESSAGE=> key:%s, value:%s",  record.key(), record.value()));
+                    System.out.println(String.format("consume from topic : "+TOPIC+", MESSAGE : key:%s, value:%s",  record.key(), record.value()));
                 }
             }
         } catch (Exception e){

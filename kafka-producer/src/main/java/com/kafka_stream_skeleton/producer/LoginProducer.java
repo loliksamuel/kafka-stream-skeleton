@@ -41,7 +41,7 @@ public class LoginProducer {
 
         LoginData loginData = new LoginData(userName, userPassword, ip, date);
 
-        System.out.println("produce:" + loginData);
+        System.out.println("produce to topic:"+topicName +" : " +loginData);
 
         ProducerRecord<String, LoginData> rec = new ProducerRecord<>(topicName, loginData);
 

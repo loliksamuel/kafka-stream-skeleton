@@ -1,59 +1,56 @@
 version: "3"
 
 services:
+
+#  zookeeper:
+#    image: wurstmeister/zookeeper:latest
+#    container_name: kafka-zookeeper
+#    restart: always
+#    ports:
+#    - "2181:2181"
+#
+#  kafka:
+#    image: wurstmeister/kafka
+#    container_name: kafka-broker
+#    depends_on:
+#    - zookeeper
+#    restart: always
+#    environment:
+#      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+#      KAFKA_CREATE_TOPICS: "user-login-counts:1:1"
+#      KAFKA_ADVERTISED_HOST_NAME: "${LOCALHOST_IP}"
+#    ports:
+#    - "9092:9092"
   zookeeper:
-    image: wurstmeister/zookeeper
+    image: confluentinc/cp-zookeeper:latest
     container_name: kafka-zookeeper
-    restart: always
-    ports:
-    - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
 
   kafka:
-    image: wurstmeister/kafka
+    image: confluentinc/cp-kafka:latest
     container_name: kafka-broker
     depends_on:
     - zookeeper
-    restart: always
-    environment:
-      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
-      KAFKA_CREATE_TOPICS: "user-login-counts:1:1"
-      KAFKA_ADVERTISED_HOST_NAME: "${LOCALHOST_IP}"
     ports:
-    - "9092:9092"
-
-
-  stream:
-   build: kafka-stream
-   container_name: kafka-stream
-   restart: always
-   environment:
-     KAFKA_URL: kafka:9092
-     zookeeper_URL: zookeeper:2181
-     INPUT_TOPIC: "users-data"
-     OUTPUT_TOPIC: "user-login-counts"
-     APPLICATION_ID: "user-login-counts-app"
-   ports:
-   - "9089:9089"
-
-  consumer:
-    build: consumer
-    container_name: kafka-consumer
-    restart: always
+    - 9092:9092
     environment:
-      OUTPUT_TOPIC: "user-login-counts"
-      KAFKA_URL: kafka:9092
-      CONSUMER_GROUP: "user-login-counts-group"
-    ports:
-    - "9090:9090"
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
 
   producer:
-    build: producer
+    build: kafka-producer
     container_name: kafka-producer
     depends_on:
-    - zookeeper
     - kafka
     environment:
-      KAFKA_URL: kafka:9092
+      KAFKA_URL: kafka:29092
       INPUT_TOPIC: "users-data"
     restart: always
     ports:
@@ -73,7 +70,38 @@ services:
                           format=json \
                           topic=users-data \
                           maxInterval=9000 \
-                          bootstrap-server=kafka:9092 \
+                          bootstrap-server=kafka:29092 \
                           propertiesFile=./schema/datagen.properties'"
+
+  stream:
+   build: kafka-stream
+   container_name: kafka-stream
+   depends_on:
+       - zookeeper
+       - kafka
+   restart: always
+   environment:
+     KAFKA_URL: kafka:29092
+     zookeeper_URL: zookeeper:2181
+     INPUT_TOPIC: "users-data"
+     OUTPUT_TOPIC: "user-login-counts"
+     APPLICATION_ID: "user-login-counts-app"
+   ports:
+   - "9089:9089"
+
+  consumer:
+    build: kafka-consumer
+    container_name: kafka-consumer
+    depends_on:
+    - zookeeper
+    - kafka
+    restart: always
+    environment:
+      OUTPUT_TOPIC: "user-login-counts"
+      KAFKA_URL: kafka:29092
+      CONSUMER_GROUP: "user-login-counts-group"
+    ports:
+    - "9090:9090"
+
 volumes:
   schema:

@@ -2,11 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>producer</artifactId>
-    <version>1.0-SNAPSHOT</version>
 
-   <parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>kafka-consumer</artifactId>
+
+    <parent>
         <artifactId>kafka-stream-skeleton</artifactId>
         <groupId>com.tikal.org</groupId>
         <version>1.0-SNAPSHOT</version>
@@ -18,33 +19,41 @@
         <maven.compiler.source>1.8</maven.compiler.source>
     </properties>
 
+
     <dependencies>
+
         <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.12</artifactId>
-            <version>2.0.0</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.5</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>
-            <version>RELEASE</version>
+            <version>1.1.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.tikal.org</groupId>
             <artifactId>stream-model</artifactId>
-            <version>${project.version}</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
-
-      <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.8.10</version>
-      </dependency>
-
     </dependencies>
+
 
     <build>
         <plugins>
@@ -59,7 +68,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.kafka_stream_skeleton.producer.Application</mainClass>
+                            <mainClass>com.kafka_stream_skeleton.consumer.Application</mainClass>
                         </manifest>
                     </archive>
 
@@ -73,6 +82,14 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
             </plugin>
         </plugins>
 
