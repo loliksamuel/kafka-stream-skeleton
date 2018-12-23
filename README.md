@@ -15,6 +15,8 @@ This skeleton contains :
 1. 2 producers (that produce data about users)
 2. 1 stream processor (that transform the data)
 3. 1 consumer (that just print out the stream output).
+4. 1 kafka broker - (using wurstmeister image it will Automatically create topics from docker-compose file)
+5. 1 kafka zookeeper
 There is a module contains the schema  used for the stream.
 There is a module contains the schema1 used for the producer/consumer.
 
