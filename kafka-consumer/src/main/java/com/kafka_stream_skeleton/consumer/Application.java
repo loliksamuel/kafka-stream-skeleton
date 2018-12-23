@@ -14,24 +14,12 @@ public class Application {
     public  static final java.lang.String CONSUMER_GROUP = System.getenv("CONSUMER_GROUP");
 
     public static void main(String[] args) {
-        System.out.println("starting kafka consumer");
         String kafkaUrl = System.getenv("KAFKA_URL");
+        System.out.println("starting kafka consumer");
         System.out.println(String.format("kafka url: %s", kafkaUrl));
         System.out.println(String.format("kafka topic: %s", TOPIC));
 
-        Properties props = new Properties();
-        props.put("bootstrap.servers", kafkaUrl);
-
-
-        props.put("group.id", CONSUMER_GROUP);
-
-        /*
-         *  this should match the kafka_stream_skeleton output key-value types
-         */
-        props.put("key.deserializer", StringDeserializer.class.getName());
-        props.put("value.deserializer", "com.kafka_stream_skeleton.consumer.serialization.JsonPOJODeserializer");
-
-        KafkaConsumer<String, LoginCount> consumer = new KafkaConsumer<>(props);
+        KafkaConsumer<String, LoginCount> consumer = new KafkaConsumer<>(getProperties(kafkaUrl));
 
         consumer.subscribe(Arrays.asList(TOPIC));
 
@@ -53,5 +41,18 @@ public class Application {
             consumer.close();
         }
 
+    }
+
+    private static Properties getProperties(String kafkaUrl) {
+        Properties props = new Properties();
+        props.put("bootstrap.servers", kafkaUrl);
+        props.put("group.id", CONSUMER_GROUP);
+
+        /*
+         *  this should match the kafka_stream_skeleton output key-value types
+         */
+        props.put("key.deserializer", StringDeserializer.class.getName());
+        props.put("value.deserializer", "com.kafka_stream_skeleton.consumer.serialization.JsonPOJODeserializer");
+        return props;
     }
 }
